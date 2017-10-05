@@ -109,57 +109,55 @@ public class VirtualChess {
             return false;}
     }
 
-    private static boolean rules(Chessmen[][] chessboard, int oldRI, int oldC, int newRI, int newC)
+    private static boolean rules(Chessmen[][] chessboard, int oldC, int oldRI, int newC, int newRI)
         throws IndexOutOfBoundsException {
 
         try {
 
             // Cannot pick up an empty space.
-            if (chessboard[oldC][oldRI] == Chessmen.EMPTY) return false;
+            if (chessboard[oldRI][oldC] == Chessmen.EMPTY) return false;
 
             // Cannot place a piece in its original location.
-            if (chessboard[oldC][oldRI] == chessboard[newC][newRI]) return false;
+            if (chessboard[oldRI][oldC] == chessboard[newRI][newC]) return false;
 
             // Cannot take a King.
-            if (chessboard[newC][newRI] == Chessmen.WHITE_KING) return false;
-            if (chessboard[newC][newRI] == Chessmen.BLACK_KING) return false;
+            if (chessboard[newRI][newC] == Chessmen.WHITE_KING) return false;
+            if (chessboard[newRI][newC] == Chessmen.BLACK_KING) return false;
 
             // Cannot place on a piece of the same colour.
-            if (chessboard[oldC][oldRI] == Chessmen.BLACK_ROOK || chessboard[oldC][oldRI]
-                == Chessmen.BLACK_KNIGHT || chessboard[oldC][oldRI]
-                == Chessmen.BLACK_PAWN || chessboard[oldC][oldRI]
-                == Chessmen.BLACK_BISHOP || chessboard[oldC][oldRI]
-                == Chessmen.BLACK_QUEEN || chessboard[oldC][oldRI]
+            if (chessboard[oldRI][oldC] == Chessmen.BLACK_ROOK || chessboard[oldRI][oldC]
+                == Chessmen.BLACK_KNIGHT || chessboard[oldRI][oldC]
+                == Chessmen.BLACK_PAWN || chessboard[oldRI][oldC]
+                == Chessmen.BLACK_BISHOP || chessboard[oldRI][oldC]
+                == Chessmen.BLACK_QUEEN || chessboard[oldRI][oldC]
                 == Chessmen.BLACK_KING) {
-                if (chessboard[newC][newRI] == Chessmen.BLACK_ROOK || chessboard[newC][newRI]
-                    == Chessmen.BLACK_KNIGHT || chessboard[newC][newRI]
-                    == Chessmen.BLACK_PAWN || chessboard[newC][newRI]
-                    == Chessmen.BLACK_BISHOP || chessboard[newC][newRI]
-                    == Chessmen.BLACK_QUEEN || chessboard[newC][newRI]
-                    == Chessmen.BLACK_KING) {
+                if (chessboard[newRI][newC] == Chessmen.BLACK_ROOK || chessboard[newRI][newC]
+                    == Chessmen.BLACK_KNIGHT || chessboard[newRI][newC]
+                    == Chessmen.BLACK_PAWN || chessboard[newRI][newC]
+                    == Chessmen.BLACK_BISHOP || chessboard[newRI][newC]
+                    == Chessmen.BLACK_QUEEN) {
                     return false;
                 }
             }
-            if (chessboard[oldC][oldRI] == Chessmen.WHITE_ROOK || chessboard[oldC][oldRI]
-                == Chessmen.WHITE_KNIGHT || chessboard[oldC][oldRI]
-                == Chessmen.WHITE_PAWN || chessboard[oldC][oldRI]
-                == Chessmen.WHITE_BISHOP || chessboard[oldC][oldRI]
-                == Chessmen.WHITE_QUEEN || chessboard[oldC][oldRI]
+            if (chessboard[oldRI][oldC] == Chessmen.WHITE_ROOK || chessboard[oldRI][oldC]
+                == Chessmen.WHITE_KNIGHT || chessboard[oldRI][oldC]
+                == Chessmen.WHITE_PAWN || chessboard[oldRI][oldC]
+                == Chessmen.WHITE_BISHOP || chessboard[oldRI][oldC]
+                == Chessmen.WHITE_QUEEN || chessboard[oldRI][oldC]
                 == Chessmen.WHITE_KING) {
-                if (chessboard[newC][newRI] == Chessmen.WHITE_ROOK || chessboard[newC][newRI]
-                    == Chessmen.WHITE_KNIGHT || chessboard[newC][newRI]
-                    == Chessmen.WHITE_PAWN || chessboard[newC][newRI]
-                    == Chessmen.WHITE_BISHOP || chessboard[newC][newRI]
-                    == Chessmen.WHITE_QUEEN || chessboard[newC][newRI]
-                    == Chessmen.WHITE_KING) {
+                if (chessboard[newRI][newC] == Chessmen.WHITE_ROOK || chessboard[newRI][newC]
+                    == Chessmen.WHITE_KNIGHT || chessboard[newRI][newC]
+                    == Chessmen.WHITE_PAWN || chessboard[newRI][newC]
+                    == Chessmen.WHITE_BISHOP || chessboard[newRI][newC]
+                    == Chessmen.WHITE_QUEEN) {
                     return false;
                 }
             }
 
             // Rules for a King.
-            if (chessboard[oldC][oldRI] == Chessmen.BLACK_KING || chessboard[oldC][oldRI] == Chessmen.WHITE_KING) {
-                int subRow = Math.abs(oldRI - newRI);
-                int subCol = Math.abs(oldC - newC);
+            if (chessboard[oldRI][oldC] == Chessmen.BLACK_KING || chessboard[oldRI][oldC] == Chessmen.WHITE_KING) {
+                int subRow = Math.abs(oldC - newC);
+                int subCol = Math.abs(oldRI - newRI);
 
                 if ((subRow == 1 || subRow == 0) && (subCol == 1 || subCol == 0)) {
                     return true;
@@ -167,12 +165,74 @@ public class VirtualChess {
 
             }
 
-//             Rules for a Rook. In progress...
-            if (chessboard[oldC][oldRI] == Chessmen.BLACK_ROOK || chessboard[oldC][oldRI] == Chessmen.WHITE_ROOK) {
-                int subRow = Math.abs(oldRI - newRI);
-                int subCol = Math.abs(oldC - newC);
+            // Rules for a Rook.
+            if (chessboard[oldRI][oldC] == Chessmen.BLACK_ROOK || chessboard[oldRI][oldC] == Chessmen.WHITE_ROOK) {
+                int subRow = Math.abs(oldC - newC);
+                int subCol = Math.abs(oldRI - newRI);
 
-                if ((subRow == 1 || subRow == 0) && (subCol == 1 || subCol == 0)) {
+                if ((subRow <= 7 && subCol == 0) || (subCol <= 7 && subRow == 0)) {
+                    return true;
+                } else return false;
+
+            }
+
+            // Rules for a Bishop.
+            if (chessboard[oldRI][oldC] == Chessmen.BLACK_BISHOP || chessboard[oldRI][oldC] == Chessmen.WHITE_BISHOP) {
+                int subRow = Math.abs(oldC - newC);
+                int subCol = Math.abs(oldRI - newRI);
+
+                if ((subRow <= 7 && subCol == subRow) || (subCol <= 7 && subRow == subCol)) {
+                    return true;
+                } else return false;
+
+            }
+
+            // Rules for a Knight.
+            if (chessboard[oldRI][oldC] == Chessmen.BLACK_KNIGHT || chessboard[oldRI][oldC] == Chessmen.WHITE_KNIGHT) {
+                int subRow = Math.abs(oldC - newC);
+                int subCol = Math.abs(oldRI - newRI);
+
+                if ((subRow == 2 && subCol == 1) || (subCol <= 2 && subRow == 1)) {
+                    return true;
+                } else return false;
+
+            }
+
+            // Rules for a Queen.
+            if (chessboard[oldRI][oldC] == Chessmen.BLACK_QUEEN || chessboard[oldRI][oldC] == Chessmen.WHITE_QUEEN) {
+                int subRow = Math.abs(oldC - newC);
+                int subCol = Math.abs(oldRI - newRI);
+
+                if ((subRow <= 7) || (subCol <= 7)) {
+                    return true;
+                } else return false;
+
+            }
+
+            // Rules for a White Pawn.
+            if (chessboard[oldRI][oldC] == Chessmen.WHITE_PAWN) {
+                int subRow = (newRI - oldRI);
+
+                if (oldRI == 1) {
+                    System.out.println("reached 2nd if");
+                    if ((subRow == 1) || subRow == 2) {
+                        return true;
+                    }
+                } else if (subRow == 1) {
+                    return true;
+                } else return false;
+
+            }
+
+            // Rules for a Black Pawn.
+            if (chessboard[oldRI][oldC] == Chessmen.BLACK_PAWN) {
+                int subRow = (newRI - oldRI);
+
+                if (oldRI == 6) {
+                    if ((subRow == -1) || subRow == -2) {
+                        return true;
+                    }
+                } else if (subRow == -1) {
                     return true;
                 } else return false;
 
