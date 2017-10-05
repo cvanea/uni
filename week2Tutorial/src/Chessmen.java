@@ -24,15 +24,9 @@ public enum Chessmen {
         this.colour = colour;
     }
 
-    public String getCharacter() {
-        return character;
-    }
+    public String getCharacter() { return character; }
 
-    public String getUnicode() {
-        return unicode;
-    }
+    public String getUnicode() { return unicode; }
 
-    public String getColour() {
-        return colour;
-    }
+    public String getColour() { return colour; }
 }

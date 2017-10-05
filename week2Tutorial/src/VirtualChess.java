@@ -134,10 +134,7 @@ public class VirtualChess {
                 int subRow = Math.abs(oldC - newC);
                 int subCol = Math.abs(oldRI - newRI);
 
-                if ((subRow == 1 || subRow == 0) && (subCol == 1 || subCol == 0)) {
-                    return true;
-                } else return false;
-
+                return (subRow == 1 || subRow == 0) && (subCol == 1 || subCol == 0);
             }
 
             // Rules for a Rook.
@@ -145,10 +142,7 @@ public class VirtualChess {
                 int subRow = Math.abs(oldC - newC);
                 int subCol = Math.abs(oldRI - newRI);
 
-                if ((subRow <= 7 && subCol == 0) || (subCol <= 7 && subRow == 0)) {
-                    return true;
-                } else return false;
-
+                return (subRow <= 7 && subCol == 0) || (subCol <= 7 && subRow == 0);
             }
 
             // Rules for a Bishop.
@@ -156,10 +150,7 @@ public class VirtualChess {
                 int subRow = Math.abs(oldC - newC);
                 int subCol = Math.abs(oldRI - newRI);
 
-                if ((subRow <= 7 && subCol == subRow) || (subCol <= 7 && subRow == subCol)) {
-                    return true;
-                } else return false;
-
+                return (subRow <= 7 && subCol == subRow) || (subCol <= 7 && subRow == subCol);
             }
 
             // Rules for a Knight.
@@ -167,10 +158,7 @@ public class VirtualChess {
                 int subRow = Math.abs(oldC - newC);
                 int subCol = Math.abs(oldRI - newRI);
 
-                if ((subRow == 2 && subCol == 1) || (subCol <= 2 && subRow == 1)) {
-                    return true;
-                } else return false;
-
+                return (subRow == 2 && subCol == 1) || (subCol <= 2 && subRow == 1);
             }
 
             // Rules for a Queen.
@@ -178,10 +166,7 @@ public class VirtualChess {
                 int subRow = Math.abs(oldC - newC);
                 int subCol = Math.abs(oldRI - newRI);
 
-                if ((subRow <= 7) || (subCol <= 7)) {
-                    return true;
-                } else return false;
-
+                return (subRow <= 7) || (subCol <= 7);
             }
 
             // Rules for a White Pawn.
@@ -193,7 +178,6 @@ public class VirtualChess {
                         return true;
                     }
                 } else return subRow == 1;
-
             }
 
             // Rules for a Black Pawn.
@@ -205,7 +189,6 @@ public class VirtualChess {
                         return true;
                     }
                 } else return subRow == -1;
-
             }
 
             return true;
