@@ -28,7 +28,7 @@ public class VirtualChess {
             }
             String move = input.nextLine();
 
-            if (move(chessboard, move, player)) {
+            if (attemptMove(chessboard, move, player)) {
                 count++;
             }
         }
@@ -79,7 +79,7 @@ public class VirtualChess {
         return stringBuilder.toString();
     }
 
-    private static Boolean move(Chessmen[][] chessboard, String move, String player) {
+    private static Boolean attemptMove(Chessmen[][] chessboard, String move, String player) {
 
         // e.g. e2 e3
         String[] components = move.split(" ");
@@ -95,8 +95,6 @@ public class VirtualChess {
         int newRI = newR - 'a';
 
         Chessmen movedPiece = chessboard[oldC][oldRI];
-//        Chessmen moveTo = chessboard[newC][newRI];
-
 
         if (rules(chessboard, oldRI, oldC, newRI, newC, player)) {
             chessboard[newC][newRI] = movedPiece;
@@ -106,7 +104,8 @@ public class VirtualChess {
             return true;
         } else {
             System.out.println("Invalid move!\n");
-            return false;}
+            return false;
+        }
     }
 
     private static boolean rules(Chessmen[][] chessboard, int oldC, int oldRI, int newC, int newRI, String player)
@@ -125,12 +124,10 @@ public class VirtualChess {
             if (chessboard[newRI][newC] == Chessmen.BLACK_KING) return false;
 
             // Cannot place on a piece of the same colour.
-            if (chessboard[newRI][newC].getColour().equals(chessboard[oldRI][oldC].getColour())) {
-                return false;
-            }
-            
+            if (chessboard[newRI][newC].getColour().equals(chessboard[oldRI][oldC].getColour())) return false;
+
             // Cannot pick up other player's piece.
-//            if (player.equals('Black'))
+            if (!player.equals(chessboard[oldRI][oldC].getColour())) return false;
 
             // Rules for a King.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_KING || chessboard[oldRI][oldC] == Chessmen.WHITE_KING) {
@@ -192,13 +189,10 @@ public class VirtualChess {
                 int subRow = (newRI - oldRI);
 
                 if (oldRI == 1) {
-                    System.out.println("reached 2nd if");
                     if ((subRow == 1) || subRow == 2) {
                         return true;
                     }
-                } else if (subRow == 1) {
-                    return true;
-                } else return false;
+                } else return subRow == 1;
 
             }
 
@@ -210,9 +204,7 @@ public class VirtualChess {
                     if ((subRow == -1) || subRow == -2) {
                         return true;
                     }
-                } else if (subRow == -1) {
-                    return true;
-                } else return false;
+                } else return subRow == -1;
 
             }
 
