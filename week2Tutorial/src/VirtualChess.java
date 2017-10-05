@@ -28,7 +28,7 @@ public class VirtualChess {
             }
             String move = input.nextLine();
 
-            if (move(chessboard, move)) {
+            if (move(chessboard, move, player)) {
                 count++;
             }
         }
@@ -79,7 +79,7 @@ public class VirtualChess {
         return stringBuilder.toString();
     }
 
-    private static Boolean move(Chessmen[][] chessboard, String move) {
+    private static Boolean move(Chessmen[][] chessboard, String move, String player) {
 
         // e.g. e2 e3
         String[] components = move.split(" ");
@@ -98,7 +98,7 @@ public class VirtualChess {
 //        Chessmen moveTo = chessboard[newC][newRI];
 
 
-        if (rules(chessboard, oldRI, oldC, newRI, newC)) {
+        if (rules(chessboard, oldRI, oldC, newRI, newC, player)) {
             chessboard[newC][newRI] = movedPiece;
             chessboard[oldC][oldRI] = Chessmen.EMPTY;
 
@@ -109,7 +109,7 @@ public class VirtualChess {
             return false;}
     }
 
-    private static boolean rules(Chessmen[][] chessboard, int oldC, int oldRI, int newC, int newRI)
+    private static boolean rules(Chessmen[][] chessboard, int oldC, int oldRI, int newC, int newRI, String player)
         throws IndexOutOfBoundsException {
 
         try {
@@ -125,34 +125,12 @@ public class VirtualChess {
             if (chessboard[newRI][newC] == Chessmen.BLACK_KING) return false;
 
             // Cannot place on a piece of the same colour.
-            if (chessboard[oldRI][oldC] == Chessmen.BLACK_ROOK || chessboard[oldRI][oldC]
-                == Chessmen.BLACK_KNIGHT || chessboard[oldRI][oldC]
-                == Chessmen.BLACK_PAWN || chessboard[oldRI][oldC]
-                == Chessmen.BLACK_BISHOP || chessboard[oldRI][oldC]
-                == Chessmen.BLACK_QUEEN || chessboard[oldRI][oldC]
-                == Chessmen.BLACK_KING) {
-                if (chessboard[newRI][newC] == Chessmen.BLACK_ROOK || chessboard[newRI][newC]
-                    == Chessmen.BLACK_KNIGHT || chessboard[newRI][newC]
-                    == Chessmen.BLACK_PAWN || chessboard[newRI][newC]
-                    == Chessmen.BLACK_BISHOP || chessboard[newRI][newC]
-                    == Chessmen.BLACK_QUEEN) {
-                    return false;
-                }
+            if (chessboard[newRI][newC].getColour().equals(chessboard[oldRI][oldC].getColour())) {
+                return false;
             }
-            if (chessboard[oldRI][oldC] == Chessmen.WHITE_ROOK || chessboard[oldRI][oldC]
-                == Chessmen.WHITE_KNIGHT || chessboard[oldRI][oldC]
-                == Chessmen.WHITE_PAWN || chessboard[oldRI][oldC]
-                == Chessmen.WHITE_BISHOP || chessboard[oldRI][oldC]
-                == Chessmen.WHITE_QUEEN || chessboard[oldRI][oldC]
-                == Chessmen.WHITE_KING) {
-                if (chessboard[newRI][newC] == Chessmen.WHITE_ROOK || chessboard[newRI][newC]
-                    == Chessmen.WHITE_KNIGHT || chessboard[newRI][newC]
-                    == Chessmen.WHITE_PAWN || chessboard[newRI][newC]
-                    == Chessmen.WHITE_BISHOP || chessboard[newRI][newC]
-                    == Chessmen.WHITE_QUEEN) {
-                    return false;
-                }
-            }
+            
+            // Cannot pick up other player's piece.
+//            if (player.equals('Black'))
 
             // Rules for a King.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_KING || chessboard[oldRI][oldC] == Chessmen.WHITE_KING) {
