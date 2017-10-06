@@ -131,18 +131,55 @@ public class VirtualChess {
 
             // Rules for a King.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_KING || chessboard[oldRI][oldC] == Chessmen.WHITE_KING) {
-                int subRow = Math.abs(oldC - newC);
-                int subCol = Math.abs(oldRI - newRI);
+                int subRow = Math.abs(oldRI - newRI);
+                int subCol = Math.abs(oldC - newC);
 
                 return (subRow == 1 || subRow == 0) && (subCol == 1 || subCol == 0);
             }
 
             // Rules for a Rook.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_ROOK || chessboard[oldRI][oldC] == Chessmen.WHITE_ROOK) {
-                int subRow = Math.abs(oldC - newC);
-                int subCol = Math.abs(oldRI - newRI);
+                int subRowAbs = Math.abs(oldRI - newRI);
+                int subColAbs = Math.abs(oldC - newC);
+                int subRow = (newRI - oldRI);
+                int subCol = (newC - oldC);
 
-                return (subRow <= 7 && subCol == 0) || (subCol <= 7 && subRow == 0);
+
+                if ((subRowAbs <= 7 && subColAbs == 0) || (subColAbs <= 7 && subRowAbs == 0)) {
+
+                    if (subCol > 0) {
+                        for (int i = 1; i < subCol; i++) {
+                            if (chessboard[oldRI][oldC + i] != Chessmen.EMPTY) {
+                                return false;
+                            }
+                        } return true;
+                    }
+
+                    if (subCol < 0) {
+                        for (int i = -1; i > subCol; i--) {
+                            if (chessboard[oldRI][oldC + i] != Chessmen.EMPTY) {
+                                return false;
+                            }
+                        } return true;
+                    }
+
+                    if (subRow > 0) {
+                        for (int i = 1; i < subRow; i++) {
+                            if (chessboard[oldRI + i][oldC] != Chessmen.EMPTY) {
+                                return false;
+                            }
+                        } return true;
+                    }
+
+                    if (subRow < 0) {
+                        for (int i = -1; i > subRow; i--) {
+                            if (chessboard[oldRI + i][oldC] != Chessmen.EMPTY) {
+                                return false;
+                            }
+                        } return true;
+                    }
+
+                } else return false;
             }
 
             // Rules for a Bishop.
