@@ -143,8 +143,8 @@ public class VirtualChess {
             // Rules for a Rook.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_ROOK || chessboard[oldRI][oldC] == Chessmen.WHITE_ROOK) {
 
-                if ((Math.abs(subRow) <= 7 && Math.abs(subCol) == 0) ||
-                    (Math.abs(subCol) <= 7 && Math.abs(subRow) == 0)) {
+                if ((Math.abs(subRow) > 0 && Math.abs(subCol) == 0) ||
+                    (Math.abs(subCol) > 0 && Math.abs(subRow) == 0)) {
 
                     return satisfyJumpRule(chessboard, subCol, subRow, oldRI, oldC);
 
@@ -154,8 +154,8 @@ public class VirtualChess {
             // Rules for a Bishop.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_BISHOP || chessboard[oldRI][oldC] == Chessmen.WHITE_BISHOP) {
 
-                if ((Math.abs(subRow) <= 7 && Math.abs(subCol) == Math.abs(subRow)) ||
-                    (Math.abs(subCol) <= 7 && Math.abs(subRow) == Math.abs(subCol))) {
+                if ((Math.abs(subRow) > 0 && Math.abs(subCol) == Math.abs(subRow)) ||
+                    (Math.abs(subCol) > 0 && Math.abs(subRow) == Math.abs(subCol))) {
 
                     return satisfyJumpRule(chessboard, subCol, subRow, oldRI, oldC);
 
@@ -172,7 +172,10 @@ public class VirtualChess {
             // Rules for a Queen.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_QUEEN || chessboard[oldRI][oldC] == Chessmen.WHITE_QUEEN) {
 
-                if ((Math.abs(subRow) <= 7) || (Math.abs(subCol) <= 7)) {
+                if ((Math.abs(subRow) > 0 && Math.abs(subCol) == 0) ||
+                    (Math.abs(subCol) > 0 && Math.abs(subRow) == 0) ||
+                    (Math.abs(subRow) > 0 && Math.abs(subCol) == Math.abs(subRow)) ||
+                    (Math.abs(subCol) > 0 && Math.abs(subRow) == Math.abs(subCol))) {
 
                     return satisfyJumpRule(chessboard, subCol, subRow, oldRI, oldC);
 
