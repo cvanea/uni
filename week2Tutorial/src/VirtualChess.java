@@ -9,7 +9,7 @@ public class VirtualChess {
         Scanner input = new Scanner(System.in);
 
         placePieces(chessboard);
-        System.out.println("\nWelcome to chess! \n");
+        System.out.println("\nWelcome to chess!\n");
 
         Boolean exit = false;
         String player;
@@ -169,26 +169,21 @@ public class VirtualChess {
                 return (subRow <= 7) || (subCol <= 7);
             }
 
-            // Rules for a White Pawn.
-            if (chessboard[oldRI][oldC] == Chessmen.WHITE_PAWN) {
+            // Rules for a Pawn.
+            if (chessboard[oldRI][oldC] == Chessmen.WHITE_PAWN || chessboard[oldRI][oldC] == Chessmen.BLACK_PAWN) {
                 int subRow = (newRI - oldRI);
 
-                if (oldRI == 1) {
-                    if ((subRow == 1) || subRow == 2) {
-                        return true;
-                    }
-                } else return subRow == 1;
-            }
+                if (chessboard[oldRI][oldC] == Chessmen.WHITE_PAWN) {
+                    if (oldRI == 1) {
+                        return (subRow == 2 && chessboard[oldRI + 1][oldC] == Chessmen.EMPTY) || subRow == 1;
+                    } else return subRow == 1;
+                }
 
-            // Rules for a Black Pawn.
-            if (chessboard[oldRI][oldC] == Chessmen.BLACK_PAWN) {
-                int subRow = (newRI - oldRI);
-
-                if (oldRI == 6) {
-                    if ((subRow == -1) || subRow == -2) {
-                        return true;
-                    }
-                } else return subRow == -1;
+                if (chessboard[oldRI][oldC] == Chessmen.BLACK_PAWN) {
+                    if (oldRI == 6) {
+                        return (subRow == -2 && chessboard[oldRI - 1][oldC] == Chessmen.EMPTY) || subRow == -1;
+                    } else return subRow == -1;
+                }
             }
 
             return true;
