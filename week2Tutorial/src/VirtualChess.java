@@ -103,7 +103,7 @@ public class VirtualChess {
             printBoard(chessboard);
             return true;
         } else {
-            System.out.println("Invalid move!\n");
+            System.out.println(" Please try again.\n");
             return false;
         }
     }
@@ -114,27 +114,39 @@ public class VirtualChess {
         try {
 
             // Cannot pick up an empty space.
-            if (chessboard[oldRI][oldC] == Chessmen.EMPTY) return false;
+            if (chessboard[oldRI][oldC] == Chessmen.EMPTY) {
+                System.out.print("\nCannot pick up an empty space."); return false;
+            }
 
             // Cannot place a piece in its original location.
-            if (chessboard[oldRI][oldC] == chessboard[newRI][newC]) return false;
+            if (chessboard[oldRI][oldC] == chessboard[newRI][newC]) {
+                System.out.print("\nCannot place a piece in the same location."); return false;
+            }
 
             // Cannot take a King.
-            if (chessboard[newRI][newC] == Chessmen.WHITE_KING) return false;
-            if (chessboard[newRI][newC] == Chessmen.BLACK_KING) return false;
+            if (chessboard[newRI][newC] == Chessmen.WHITE_KING || chessboard[newRI][newC] == Chessmen.BLACK_KING) {
+                System.out.print("\nCannot take a King."); return false;
+            }
 
             // Cannot place on a piece of the same colour.
-            if (chessboard[newRI][newC].getColour().equals(chessboard[oldRI][oldC].getColour())) return false;
+            if (chessboard[newRI][newC].getColour().equals(chessboard[oldRI][oldC].getColour())) {
+                System.out.print("\nCannot place on a piece of the same colour."); return false;
+            }
 
             // Cannot pick up other player's piece.
-            if (!player.equals(chessboard[oldRI][oldC].getColour())) return false;
+            if (!player.equals(chessboard[oldRI][oldC].getColour())) {
+                System.out.print("\nThat's not your colour!"); return false;
+            }
 
             // Rules for a King.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_KING || chessboard[oldRI][oldC] == Chessmen.WHITE_KING) {
                 int subRow = Math.abs(oldRI - newRI);
                 int subCol = Math.abs(oldC - newC);
 
-                return (subRow == 1 || subRow == 0) && (subCol == 1 || subCol == 0);
+                if ((subRow == 1 || subRow == 0) && (subCol == 1 || subCol == 0)) return true;
+                else {
+                    System.out.print("\nInvalid King movement."); return false;
+                }
             }
 
             int subRow = newRI - oldRI;
@@ -148,7 +160,9 @@ public class VirtualChess {
 
                     return satisfyJumpRule(chessboard, subCol, subRow, oldRI, oldC);
 
-                } else return false;
+                } else {
+                    System.out.print("\nInvalid Rook movement."); return false;
+                }
             }
 
             // Rules for a Bishop.
@@ -159,14 +173,19 @@ public class VirtualChess {
 
                     return satisfyJumpRule(chessboard, subCol, subRow, oldRI, oldC);
 
-                } else return false;
+                } else {
+                    System.out.print("\nInvalid Bishop movement."); return false;
+                }
             }
 
             // Rules for a Knight.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_KNIGHT || chessboard[oldRI][oldC] == Chessmen.WHITE_KNIGHT) {
 
-                return (Math.abs(subRow) == 2 && Math.abs(subCol) == 1) ||
-                    (Math.abs(subCol) <= 2 && Math.abs(subRow) == 1);
+                if ((Math.abs(subRow) == 2 && Math.abs(subCol) == 1) ||
+                    (Math.abs(subCol) <= 2 && Math.abs(subRow) == 1)) return true;
+                else {
+                    System.out.print("\nInvalid Knight movement."); return false;
+                }
             }
 
             // Rules for a Queen.
@@ -179,7 +198,9 @@ public class VirtualChess {
 
                     return satisfyJumpRule(chessboard, subCol, subRow, oldRI, oldC);
 
-                } else return false;
+                } else {
+                    System.out.print("\nInvalid Queen movement."); return false;
+                }
             }
 
             // Rules for a Pawn.
@@ -187,14 +208,27 @@ public class VirtualChess {
 
                 if (chessboard[oldRI][oldC] == Chessmen.WHITE_PAWN) {
                     if (oldRI == 1) {
-                        return (subRow == 2 && chessboard[oldRI + 1][oldC] == Chessmen.EMPTY) || subRow == 1;
-                    } else return subRow == 1;
+                        if ((subRow == 2 && chessboard[oldRI + 1][oldC] == Chessmen.EMPTY) || subRow == 1) return true;
+                        else {
+                            System.out.print("\nInvalid Pawn movement."); return false;
+                        }
+                    } else if (subRow == 1) return true;
+                    else {
+                        System.out.print("\nInvalid Pawn movement."); return false;
+                    }
                 }
 
                 if (chessboard[oldRI][oldC] == Chessmen.BLACK_PAWN) {
                     if (oldRI == 6) {
-                        return (subRow == -2 && chessboard[oldRI - 1][oldC] == Chessmen.EMPTY) || subRow == -1;
-                    } else return subRow == -1;
+                        if ((subRow == -2 && chessboard[oldRI - 1][oldC] == Chessmen.EMPTY) || subRow == -1)
+                            return true;
+                        else {
+                            System.out.print("\nInvalid Pawn movement."); return false;
+                        }
+                    } else if (subRow == -1) return true;
+                    else {
+                        System.out.print("\nInvalid Pawn movement."); return false;
+                    }
                 }
             }
 
@@ -202,16 +236,20 @@ public class VirtualChess {
 
             // Cannot move a piece off the board.
         } catch (IndexOutOfBoundsException e) {
+            System.out.print("\nYou cannot move off the board!");
             return false;
         }
     }
 
     // Prevents pieces from moving through other pieces. Called in rules().
     private static Boolean satisfyJumpRule(Chessmen[][] chessboard, int subCol, int subRow, int oldRI, int oldC) {
+        String errorMessage = "\nYou cannot jump over other pieces!";
+
 
         if (subCol > 0) {
             for (int i = 1; i < subCol; i++) {
                 if (chessboard[oldRI][oldC + i] != Chessmen.EMPTY) {
+                    System.out.print(errorMessage);
                     return false;
                 }
             } return true;
@@ -220,6 +258,7 @@ public class VirtualChess {
         if (subCol < 0) {
             for (int i = -1; i > subCol; i--) {
                 if (chessboard[oldRI][oldC + i] != Chessmen.EMPTY) {
+                    System.out.print(errorMessage);
                     return false;
                 }
             } return true;
@@ -228,6 +267,7 @@ public class VirtualChess {
         if (subRow > 0) {
             for (int i = 1; i < subRow; i++) {
                 if (chessboard[oldRI + i][oldC] != Chessmen.EMPTY) {
+                    System.out.print(errorMessage);
                     return false;
                 }
             } return true;
@@ -236,10 +276,12 @@ public class VirtualChess {
         if (subRow < 0) {
             for (int i = -1; i > subRow; i--) {
                 if (chessboard[oldRI + i][oldC] != Chessmen.EMPTY) {
+                    System.out.print(errorMessage);
                     return false;
                 }
             } return true;
         }
-     return false;
+        System.out.print(errorMessage);
+        return false;
     }
 }
