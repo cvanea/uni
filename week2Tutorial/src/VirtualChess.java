@@ -137,78 +137,50 @@ public class VirtualChess {
                 return (subRow == 1 || subRow == 0) && (subCol == 1 || subCol == 0);
             }
 
+            int subRow = newRI - oldRI;
+            int subCol = newC - oldC;
+
             // Rules for a Rook.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_ROOK || chessboard[oldRI][oldC] == Chessmen.WHITE_ROOK) {
-                int subRowAbs = Math.abs(oldRI - newRI);
-                int subColAbs = Math.abs(oldC - newC);
-                int subRow = (newRI - oldRI);
-                int subCol = (newC - oldC);
 
+                if ((Math.abs(subRow) <= 7 && Math.abs(subCol) == 0) ||
+                    (Math.abs(subCol) <= 7 && Math.abs(subRow) == 0)) {
 
-                if ((subRowAbs <= 7 && subColAbs == 0) || (subColAbs <= 7 && subRowAbs == 0)) {
-
-                    if (subCol > 0) {
-                        for (int i = 1; i < subCol; i++) {
-                            if (chessboard[oldRI][oldC + i] != Chessmen.EMPTY) {
-                                return false;
-                            }
-                        } return true;
-                    }
-
-                    if (subCol < 0) {
-                        for (int i = -1; i > subCol; i--) {
-                            if (chessboard[oldRI][oldC + i] != Chessmen.EMPTY) {
-                                return false;
-                            }
-                        } return true;
-                    }
-
-                    if (subRow > 0) {
-                        for (int i = 1; i < subRow; i++) {
-                            if (chessboard[oldRI + i][oldC] != Chessmen.EMPTY) {
-                                return false;
-                            }
-                        } return true;
-                    }
-
-                    if (subRow < 0) {
-                        for (int i = -1; i > subRow; i--) {
-                            if (chessboard[oldRI + i][oldC] != Chessmen.EMPTY) {
-                                return false;
-                            }
-                        } return true;
-                    }
+                    return satisfyJumpRule(chessboard, subCol, subRow, oldRI, oldC);
 
                 } else return false;
             }
 
             // Rules for a Bishop.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_BISHOP || chessboard[oldRI][oldC] == Chessmen.WHITE_BISHOP) {
-                int subRow = Math.abs(oldC - newC);
-                int subCol = Math.abs(oldRI - newRI);
 
-                return (subRow <= 7 && subCol == subRow) || (subCol <= 7 && subRow == subCol);
+                if ((Math.abs(subRow) <= 7 && Math.abs(subCol) == Math.abs(subRow)) ||
+                    (Math.abs(subCol) <= 7 && Math.abs(subRow) == Math.abs(subCol))) {
+
+                    return satisfyJumpRule(chessboard, subCol, subRow, oldRI, oldC);
+
+                } else return false;
             }
 
             // Rules for a Knight.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_KNIGHT || chessboard[oldRI][oldC] == Chessmen.WHITE_KNIGHT) {
-                int subRow = Math.abs(oldC - newC);
-                int subCol = Math.abs(oldRI - newRI);
 
-                return (subRow == 2 && subCol == 1) || (subCol <= 2 && subRow == 1);
+                return (Math.abs(subRow) == 2 && Math.abs(subCol) == 1) ||
+                    (Math.abs(subCol) <= 2 && Math.abs(subRow) == 1);
             }
 
             // Rules for a Queen.
             if (chessboard[oldRI][oldC] == Chessmen.BLACK_QUEEN || chessboard[oldRI][oldC] == Chessmen.WHITE_QUEEN) {
-                int subRow = Math.abs(oldC - newC);
-                int subCol = Math.abs(oldRI - newRI);
 
-                return (subRow <= 7) || (subCol <= 7);
+                if ((Math.abs(subRow) <= 7) || (Math.abs(subCol) <= 7)) {
+
+                    return satisfyJumpRule(chessboard, subCol, subRow, oldRI, oldC);
+
+                } else return false;
             }
 
             // Rules for a Pawn.
             if (chessboard[oldRI][oldC] == Chessmen.WHITE_PAWN || chessboard[oldRI][oldC] == Chessmen.BLACK_PAWN) {
-                int subRow = (newRI - oldRI);
 
                 if (chessboard[oldRI][oldC] == Chessmen.WHITE_PAWN) {
                     if (oldRI == 1) {
@@ -229,5 +201,42 @@ public class VirtualChess {
         } catch (IndexOutOfBoundsException e) {
             return false;
         }
+    }
+
+    // Prevents pieces from moving through other pieces. Called in rules().
+    private static Boolean satisfyJumpRule(Chessmen[][] chessboard, int subCol, int subRow, int oldRI, int oldC) {
+
+        if (subCol > 0) {
+            for (int i = 1; i < subCol; i++) {
+                if (chessboard[oldRI][oldC + i] != Chessmen.EMPTY) {
+                    return false;
+                }
+            } return true;
+        }
+
+        if (subCol < 0) {
+            for (int i = -1; i > subCol; i--) {
+                if (chessboard[oldRI][oldC + i] != Chessmen.EMPTY) {
+                    return false;
+                }
+            } return true;
+        }
+
+        if (subRow > 0) {
+            for (int i = 1; i < subRow; i++) {
+                if (chessboard[oldRI + i][oldC] != Chessmen.EMPTY) {
+                    return false;
+                }
+            } return true;
+        }
+
+        if (subRow < 0) {
+            for (int i = -1; i > subRow; i--) {
+                if (chessboard[oldRI + i][oldC] != Chessmen.EMPTY) {
+                    return false;
+                }
+            } return true;
+        }
+     return false;
     }
 }
