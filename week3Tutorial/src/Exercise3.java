@@ -37,7 +37,6 @@ public class Exercise3 {
         aList.addAll(appendList);
         System.out.println(aList);
 
-
         Integer[] newArray = aList.toArray(new Integer[aList.size()]);
 
         System.out.println(Arrays.toString(newArray));
