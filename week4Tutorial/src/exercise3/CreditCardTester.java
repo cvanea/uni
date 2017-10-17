@@ -8,7 +8,7 @@ public class CreditCardTester {
             10, 2014, "Bob", "Jones", "1234567890123456");
 
         CreditCard cc2 = new CreditCard(
-            10, 2018, "Bob", "Jones", "1234567890123456");
+            12, 2018, "Sally", "Smith", "9283742987492459");
 
         System.out.println(cc1.cardToString());
         System.out.println();
