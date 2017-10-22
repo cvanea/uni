@@ -19,44 +19,21 @@ class FileHandler {
         StringBuilder stringBuilder = new StringBuilder();
 
         for (String i : arrInput) {
-            stringBuilder.append("The number of lines in ").append(i).append(": ").append(fileReader(i)).append("\n");
+            try {
+                FileReader fileReader = new FileReader(i);
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+                long lineCount = bufferedReader.lines().count();
+                bufferedReader.close();
+
+                stringBuilder.append("The number of lines in ").append(i).append(": ").append(lineCount).append("\n");
+            } catch (FileNotFoundException e) {
+                System.out.println(i + " does not exist.\n");
+            } catch (IOException e) {
+                System.out.println("Error with " + i + "\n");
+            }
         }
 
         System.out.println(stringBuilder.toString());
-
     }
-
-    private static int fileReader(String filename) {
-
-        String line;
-
-        try {
-            FileReader fileReader = new FileReader(filename);
-
-            BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-            int count = 0;
-
-            while ((line = bufferedReader.readLine()) != null) {
-                count++;
-            }
-
-            bufferedReader.close();
-
-            return count;
-
-        } catch (FileNotFoundException e) {
-            System.out.println(filename + " does not exist.");
-            return 0;
-        } catch (IOException e) {
-            System.out.println("Error");
-            return 0;
-        }
-
-    }
-//
-//    private static int lineCounter(String filename) {
-//
-//    }
-
 }
