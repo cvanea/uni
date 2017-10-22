@@ -8,19 +8,21 @@
     <properties/>
     <border type="none"/>
     <children>
-      <component id="12906" class="javax.swing.JComboBox" binding="currencyList" custom-create="true">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <model/>
-        </properties>
-      </component>
-      <component id="b94cb" class="javax.swing.JComboBox" binding="currencyList2" custom-create="true">
+      <component id="504b1" class="javax.swing.JComboBox" binding="currencyList" custom-create="true">
         <constraints>
           <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
+      </component>
+      <component id="76848" class="javax.swing.JTextField" binding="enterAmountToConvertTextField" default-binding="true">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value="Enter amount to convert:"/>
+        </properties>
       </component>
     </children>
   </grid>
