@@ -1,10 +1,7 @@
 package exercise1;
 
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
-import java.io.IOException;
-import java.io.BufferedReader;
-import java.io.FileReader;
 
 class FileHandler {
 
