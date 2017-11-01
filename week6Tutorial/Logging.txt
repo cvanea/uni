@@ -1,0 +1,8 @@
+Nov 01, 2017 4:42:52 PM exercise1.UseLogger printPascalTriangle
+SEVERE: Info Log
+Nov 01, 2017 4:42:52 PM exercise1.UseLogger printPascalTriangle
+SEVERE: Info Log
+Nov 01, 2017 4:42:52 PM exercise1.UseLogger printPascalTriangle
+WARNING: Info Log
+Nov 01, 2017 4:42:52 PM exercise1.UseLogger printPascalTriangle
+INFO: Info Log
