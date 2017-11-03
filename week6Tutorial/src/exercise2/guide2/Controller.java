@@ -1,4 +1,4 @@
-package exercise2;
+package exercise2.guide2;
 
 public class Controller {
 }
